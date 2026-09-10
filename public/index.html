@@ -54,6 +54,32 @@
             max-width: 1300px; margin: 40px auto; padding: 0 30px; flex: 1; width: 100%;
         }
 
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .product-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.3s;
+        }
+        .product-card:hover { border-color: var(--accent-purple); }
+        .product-title { padding: 20px; font-size: 1.2rem; font-weight: 700; text-align: center; border-bottom: 1px solid var(--border-color); }
+        .product-body { padding: 20px; display: flex; flex-direction: column; gap: 15px; flex-grow: 1; justify-content: space-between; }
+        .product-price { font-weight: bold; font-size: 1.2rem; }
+        .view-btn {
+            display: block; width: 100%; text-align: center; background: var(--accent-purple);
+            color: #fff; padding: 10px; border-radius: 6px; text-decoration: none; font-weight: bold;
+        }
+
         footer {
             border-top: 1px solid var(--border-color); padding: 30px 50px;
             display: flex; justify-content: space-between; align-items: center;
@@ -65,7 +91,6 @@
     <div class="mouse-glow" id="mouseGlow"></div>
     <div class="cursor" id="customCursor"></div>
 
-    <!-- Header without nav links -->
     <header>
         <a href="/" class="logo-area">
             <img src="/logo.png" alt="TVM Logo" class="logo-icon"> TVM
@@ -74,10 +99,11 @@
 
     <div class="main-layout">
         <h1 style="margin-bottom: 20px;">Products</h1>
-        <!-- Your products grid / content goes here -->
+        <div class="products-grid" id="productsGrid">
+            <!-- Products load here dynamically -->
+        </div>
     </div>
 
-    <!-- Footer without policy links -->
     <footer>
         <div>TVM</div>
         <div>Copyright © TVM 2026</div>
@@ -92,6 +118,37 @@
             glow.style.left = `${e.clientX}px`;
             glow.style.top = `${e.clientY}px`;
         });
+
+        // Fetch and display products on the storefront
+        async function fetchProducts() {
+            try {
+                const res = await fetch('/api/products');
+                const products = await res.json();
+                const grid = document.getElementById('productsGrid');
+                grid.innerHTML = '';
+
+                products.forEach(p => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `
+                        <div class="product-title">${p.name}</div>
+                        <div class="product-body">
+                            <p style="color: var(--text-muted);">${p.description}</p>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span class="product-price">$${p.price.toFixed(2)}</span>
+                                <span style="font-size: 0.85rem; color: var(--text-muted);">${p.stock} In Stock</span>
+                            </div>
+                            <a href="/product.html?id=${p.id}" class="view-btn">View Details →</a>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            } catch (err) {
+                console.error("Could not load products", err);
+            }
+        }
+
+        fetchProducts();
     </script>
 </body>
 </html>
