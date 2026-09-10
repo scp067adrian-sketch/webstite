@@ -1,0 +1,13 @@
+{
+  "name": "tvm-store",
+  "version": "1.0.0",
+  "description": "TVM Store Backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "stripe": "^14.25.0"
+  }
+}
