@@ -26,15 +26,26 @@
             flex-direction: column; 
             overflow-x: hidden;
             position: relative;
+            perspective: 1200px; /* Enables 3D space for the whole page */
+        }
+
+        /* 3D Moving Wrapper for Edges & Screen */
+        .page-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            width: 100%;
+            transition: transform 0.1s ease-out;
+            transform-style: preserve-3d;
         }
 
         /* Animated Dynamic Glowing Nebula Background */
         .bg-nebula {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
+            position: fixed; top: -5%; left: -5%; width: 110%; height: 110%; pointer-events: none; z-index: 0;
             background: 
-                radial-gradient(circle at 20% 30%, rgba(255, 0, 127, 0.25) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(138, 43, 226, 0.3) 0%, transparent 60%),
-                radial-gradient(circle at 50% 50%, rgba(75, 0, 130, 0.25) 0%, transparent 70%),
+                radial-gradient(circle at 20% 30%, rgba(255, 0, 127, 0.28) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(138, 43, 226, 0.32) 0%, transparent 60%),
+                radial-gradient(circle at 50% 50%, rgba(75, 0, 130, 0.28) 0%, transparent 70%),
                 linear-gradient(135deg, #05000a 0%, #1a0324 50%, #030005 100%);
             animation: nebulaShift 12s ease-in-out infinite alternate;
         }
@@ -134,11 +145,12 @@
             backdrop-filter: blur(16px);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
+            transform: translateZ(20px); /* Lifts cards forward in 3D */
         }
         
         .product-card:hover {
             border-color: var(--border-hover);
-            transform: translateY(-6px);
+            transform: translateZ(35px) translateY(-6px);
             box-shadow: 0 20px 55px var(--accent-glow);
         }
 
@@ -228,33 +240,41 @@
     <div class="cursor" id="customCursor">💖</div>
     <div class="hearts-container" id="heartsContainer"></div>
 
-    <header>
-        <a href="/" class="logo-area">
-            <img src="/logo.png" alt="TVM Logo" class="logo-icon"> TVM
-        </a>
-    </header>
+    <div class="page-wrapper" id="pageWrapper">
+        <header>
+            <a href="/" class="logo-area">
+                <img src="/logo.png" alt="TVM Logo" class="logo-icon"> TVM
+            </a>
+        </header>
 
-    <div class="main-layout">
-        <h1 class="page-title">Explore Products</h1>
-        <div class="products-grid" id="productsGrid">
-            <!-- Dynamic products load here -->
+        <div class="main-layout">
+            <h1 class="page-title">Explore Products</h1>
+            <div class="products-grid" id="productsGrid">
+                <!-- Dynamic products load here -->
+            </div>
         </div>
-    </div>
 
-    <footer>
-        <div>TVM</div>
-        <div>Copyright © TVM 2026</div>
-    </footer>
+        <footer>
+            <div>TVM</div>
+            <div>Copyright © TVM 2026</div>
+        </footer>
+    </div>
 
     <script>
         const cursor = document.getElementById('customCursor');
         const glow = document.getElementById('mouseGlow');
+        const pageWrapper = document.getElementById('pageWrapper');
         
         window.addEventListener('mousemove', (e) => {
             cursor.style.left = `${e.clientX}px`;
             cursor.style.top = `${e.clientY}px`;
             glow.style.left = `${e.clientX}px`;
             glow.style.top = `${e.clientY}px`;
+
+            // 3D Screen Tilt Effect responding to edge positions
+            const xVal = (e.clientX / window.innerWidth - 0.5) * 12; // tilt angle X
+            const yVal = (e.clientY / window.innerHeight - 0.5) * -12; // tilt angle Y
+            pageWrapper.style.transform = `rotateX(${yVal}deg) rotateY(${xVal}deg)`;
         });
 
         // Vibrant 3D Raining Hearts Generator
