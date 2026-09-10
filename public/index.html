@@ -7,13 +7,13 @@
     <style>
         :root {
             --bg-color: #030005;
-            --card-bg: linear-gradient(145deg, rgba(22, 6, 35, 0.75), rgba(10, 2, 18, 0.85));
+            --card-bg: linear-gradient(145deg, rgba(30, 8, 45, 0.85), rgba(15, 3, 24, 0.9));
             --accent-purple: #ff007f;
-            --accent-glow: rgba(255, 0, 127, 0.5);
+            --accent-glow: rgba(255, 0, 127, 0.6);
             --text-main: #ffffff;
             --text-muted: #d0a5e8;
-            --border-color: rgba(255, 0, 127, 0.35);
-            --border-hover: rgba(255, 0, 127, 0.9);
+            --border-color: rgba(255, 0, 127, 0.4);
+            --border-hover: rgba(255, 0, 127, 1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; cursor: none; }
@@ -26,44 +26,59 @@
             flex-direction: column; 
             overflow-x: hidden;
             position: relative;
+            perspective: 1200px;
         }
 
-        /* Rich Galaxy Background with Spiral Nebula */
+        .page-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            width: 100%;
+            transition: transform 0.1s ease-out;
+            transform-style: preserve-3d;
+        }
+
         .bg-nebula {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
+            position: fixed; top: -5%; left: -5%; width: 110%; height: 110%; pointer-events: none; z-index: 0;
             background: 
-                radial-gradient(circle at 75% 30%, rgba(180, 40, 140, 0.35) 0%, transparent 45%),
-                radial-gradient(circle at 20% 70%, rgba(90, 20, 120, 0.4) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(40, 5, 60, 0.8) 0%, #030005 90%),
-                url('https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
-            background-blend-mode: screen;
-            opacity: 0.85;
+                radial-gradient(circle at 20% 30%, rgba(255, 0, 127, 0.28) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(138, 43, 226, 0.32) 0%, transparent 60%),
+                radial-gradient(circle at 50% 50%, rgba(75, 0, 130, 0.28) 0%, transparent 70%),
+                linear-gradient(135deg, #05000a 0%, #1a0324 50%, #030005 100%);
+            animation: nebulaShift 12s ease-in-out infinite alternate;
+        }
+
+        @keyframes nebulaShift {
+            0% { transform: scale(1) rotate(0deg); filter: hue-rotate(0deg); }
+            50% { transform: scale(1.05) rotate(2deg); filter: hue-rotate(25deg); }
+            100% { transform: scale(1) rotate(0deg); filter: hue-rotate(0deg); }
         }
 
         .bg-particles {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
             background-image: 
                 radial-gradient(white 1px, transparent 1px),
-                radial-gradient(rgba(255, 0, 127, 0.7) 1.5px, transparent 1.5px);
-            background-size: 150px 150px, 90px 90px;
-            background-position: 0 0, 45px 45px;
-            opacity: 0.35;
+                radial-gradient(rgba(255, 0, 127, 0.6) 1.5px, transparent 1.5px);
+            background-size: 120px 120px, 80px 80px;
+            background-position: 0 0, 40px 40px;
+            opacity: 0.3;
         }
 
         .mouse-glow {
-            position: fixed; top: 0; left: 0; width: 500px; height: 500px;
-            background: radial-gradient(circle, rgba(255, 0, 127, 0.15) 0%, transparent 70%);
+            position: fixed; top: 0; left: 0; width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(255, 0, 127, 0.18) 0%, transparent 70%);
             transform: translate(-50%, -50%); pointer-events: none; z-index: 1;
         }
-
         .cursor {
-            position: fixed; top: 0; left: 0; font-size: 20px;
+            position: fixed; top: 0; left: 0; font-size: 22px;
             pointer-events: none; transform: translate(-50%, -50%);
-            text-shadow: 0 0 10px var(--accent-purple), 0 0 20px rgba(255, 0, 127, 0.8);
+            text-shadow: 0 0 12px var(--accent-purple), 0 0 25px rgba(255, 0, 127, 0.9);
             z-index: 9999;
             transition: transform 0.1s ease;
         }
-        .cursor.hovered { transform: translate(-50%, -50%) scale(1.5); }
+        .cursor.hovered {
+            transform: translate(-50%, -50%) scale(1.6);
+        }
 
         .hearts-container { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
@@ -71,115 +86,113 @@
         }
         .heart { 
             position: absolute; 
-            font-size: 22px; 
+            font-size: 24px; 
             animation: floatUp linear infinite; 
-            text-shadow: 0 0 12px rgba(255, 0, 127, 0.9);
-            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
+            text-shadow: 0 0 15px rgba(255, 0, 127, 0.9), 0 0 30px rgba(255, 0, 127, 0.5);
+            filter: drop-shadow(0 5px 12px rgba(0,0,0,0.7));
         }
         @keyframes floatUp {
-            0% { transform: translateY(105vh) scale(0.6) rotate(0deg); opacity: 0; }
-            15% { opacity: 0.9; }
-            85% { opacity: 0.9; }
-            100% { transform: translateY(-10vh) scale(1.3) rotate(360deg); opacity: 0; }
+            0% { transform: translateY(105vh) scale(0.7) rotate(0deg); opacity: 0; }
+            15% { opacity: 0.95; }
+            85% { opacity: 0.95; }
+            100% { transform: translateY(-12vh) scale(1.4) rotate(360deg); opacity: 0; }
         }
 
         header, .main-layout, footer { position: relative; z-index: 2; }
 
         header { 
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 20px 60px; border-bottom: 1px solid var(--border-color); 
-            background: rgba(10, 2, 18, 0.4); backdrop-filter: blur(10px);
+            padding: 25px 60px; border-bottom: 1px solid var(--border-color); 
+            background: rgba(12, 1, 20, 0.25); backdrop-filter: blur(12px);
         }
-        .logo-area { display: flex; align-items: center; gap: 12px; font-weight: 900; font-size: 1.4rem; letter-spacing: 1.2px; color: var(--text-main); text-decoration: none; }
-        .logo-icon { width: 32px; height: 32px; object-fit: contain; filter: drop-shadow(0 0 10px var(--accent-purple)); }
+        .logo-area { display: flex; align-items: center; gap: 14px; font-weight: 900; font-size: 1.5rem; letter-spacing: 1.5px; color: var(--text-main); text-decoration: none; }
+        .logo-icon { width: 36px; height: 36px; object-fit: contain; filter: drop-shadow(0 0 12px var(--accent-purple)); }
 
         .main-layout {
-            max-width: 1300px; margin: 40px auto; padding: 0 30px; flex: 1; width: 100%;
+            max-width: 1400px; margin: 50px auto; padding: 0 40px; flex: 1; width: 100%;
         }
 
         .page-title {
-            font-size: 2.3rem;
+            font-size: 2.5rem;
             font-weight: 900;
-            text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
             letter-spacing: 0.5px;
             background: linear-gradient(135deg, #fff 30%, var(--text-muted) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(255,0,127,0.3);
+            text-shadow: 0 0 35px rgba(255,0,127,0.4);
         }
 
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
-            gap: 35px;
-            justify-content: center;
+            grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+            gap: 40px;
         }
 
         .product-card {
             background: var(--card-bg);
             border: 2px solid var(--border-color);
-            border-radius: 22px;
+            border-radius: 20px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             backdrop-filter: blur(16px);
-            transition: all 0.3s ease;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 0, 127, 0.05);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), inset 0 0 25px rgba(255, 0, 127, 0.08);
+            transform: translateZ(20px);
         }
         
         .product-card:hover {
             border-color: var(--border-hover);
-            transform: translateY(-6px);
-            box-shadow: 0 20px 50px var(--accent-glow), inset 0 0 30px rgba(255, 0, 127, 0.15);
+            transform: translateZ(40px) translateY(-8px);
+            box-shadow: 0 25px 65px var(--accent-glow), inset 0 0 35px rgba(255, 0, 127, 0.2);
         }
 
         .product-title { 
-            padding: 22px; 
-            font-size: 1.5rem; 
-            font-weight: 800; 
+            padding: 24px; 
+            font-size: 1.6rem; 
+            font-weight: 900; 
             text-align: center; 
-            border-bottom: 1px solid var(--border-color); 
-            background: linear-gradient(180deg, rgba(255, 0, 127, 0.12), transparent);
+            border-bottom: 2px solid var(--border-color); 
+            background: linear-gradient(180deg, rgba(255, 0, 127, 0.15), rgba(255, 0, 127, 0.03));
             letter-spacing: 0.5px;
-            text-shadow: 0 0 12px rgba(255,0,127,0.4);
+            text-shadow: 0 0 15px rgba(255,0,127,0.5);
         }
 
-        /* Product Icon Showcase Area */
-        .product-icon-container {
+        .product-card-visual {
             width: 100%;
-            height: 120px;
+            height: 140px;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 15px;
+            background: radial-gradient(circle, rgba(255,0,127,0.12) 0%, rgba(5,0,8,0.4) 70%);
+            border-bottom: 1px solid var(--border-color);
             position: relative;
         }
-        .product-icon-container img {
-            max-height: 95px;
+        .product-card-visual img {
+            max-height: 80px;
             object-fit: contain;
-            filter: drop-shadow(0 0 15px rgba(255, 0, 127, 0.8));
-            animation: pulseIcon 3s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 18px var(--accent-purple));
+            animation: floatIcon 3s ease-in-out infinite alternate;
         }
-        @keyframes pulseIcon {
-            0% { transform: scale(1); filter: drop-shadow(0 0 12px rgba(255, 0, 127, 0.6)); }
-            100% { transform: scale(1.06); filter: drop-shadow(0 0 22px rgba(255, 0, 127, 1)); }
+        @keyframes floatIcon {
+            0% { transform: translateY(0px) scale(1); }
+            100% { transform: translateY(-6px) scale(1.05); }
         }
 
         .product-body { 
-            padding: 25px 30px 30px 30px; 
+            padding: 30px; 
             display: flex; 
             flex-direction: column; 
-            gap: 20px; 
+            gap: 22px; 
             flex-grow: 1; 
             justify-content: space-between; 
         }
 
         .product-desc {
             color: var(--text-muted);
-            font-size: 1rem;
-            line-height: 1.5;
-            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.6;
         }
 
         .meta-row {
@@ -187,24 +200,25 @@
             justify-content: space-between; 
             align-items: center; 
             border-top: 1px dashed var(--border-color);
-            padding-top: 18px;
+            padding-top: 20px;
         }
 
         .product-price { 
             font-weight: 900; 
-            font-size: 1.7rem; 
+            font-size: 1.9rem; 
             color: #fff;
-            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+            text-shadow: 0 0 15px rgba(255,255,255,0.6);
         }
 
         .stock-badge {
-            font-size: 0.85rem;
+            font-size: 0.95rem;
             color: #ff3399;
-            background: rgba(255, 0, 127, 0.18);
-            padding: 6px 14px;
+            background: rgba(255, 0, 127, 0.22);
+            padding: 7px 16px;
             border-radius: 20px;
-            border: 1px solid rgba(255, 0, 127, 0.4);
-            font-weight: 700;
+            border: 1px solid rgba(255, 0, 127, 0.6);
+            font-weight: 800;
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
         }
 
         .view-btn {
@@ -213,28 +227,27 @@
             text-align: center; 
             background: linear-gradient(135deg, var(--accent-purple), #b30059);
             color: #fff; 
-            padding: 14px; 
+            padding: 16px; 
             border-radius: 12px; 
             text-decoration: none; 
-            font-weight: 800;
-            font-size: 1.1rem;
-            box-shadow: 0 5px 15px rgba(255, 0, 127, 0.4);
+            font-weight: 900;
+            font-size: 1.15rem;
+            box-shadow: 0 6px 20px rgba(255, 0, 127, 0.5);
             transition: all 0.2s ease;
-            border: 1px solid rgba(255,255,255,0.15);
-            position: relative;
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
         .view-btn:hover {
             filter: brightness(1.15);
-            box-shadow: 0 6px 25px rgba(255, 0, 127, 0.7);
-            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 0, 127, 0.8);
+            transform: scale(1.02);
         }
 
         footer {
             border-top: 1px solid var(--border-color); 
-            padding: 25px 60px;
+            padding: 30px 60px;
             display: flex; justify-content: space-between; align-items: center;
-            background: rgba(10, 2, 18, 0.4); backdrop-filter: blur(10px);
+            background: rgba(12, 1, 20, 0.25); backdrop-filter: blur(12px);
             font-size: 0.85rem; color: var(--text-muted);
         }
     </style>
@@ -246,33 +259,40 @@
     <div class="cursor" id="customCursor">💖</div>
     <div class="hearts-container" id="heartsContainer"></div>
 
-    <header>
-        <a href="/" class="logo-area">
-            <img src="/logo.png" alt="TVM Logo" class="logo-icon"> TVM
-        </a>
-    </header>
+    <div class="page-wrapper" id="pageWrapper">
+        <header>
+            <a href="/" class="logo-area">
+                <img src="/logo.png" alt="TVM Logo" class="logo-icon"> TVM
+            </a>
+        </header>
 
-    <div class="main-layout">
-        <h1 class="page-title">Explore Products</h1>
-        <div class="products-grid" id="productsGrid">
-            <!-- Dynamic products load here -->
+        <div class="main-layout">
+            <h1 class="page-title">Explore Products</h1>
+            <div class="products-grid" id="productsGrid">
+                <!-- Dynamic products load here -->
+            </div>
         </div>
-    </div>
 
-    <footer>
-        <div>TVM</div>
-        <div>Copyright © 2024 TVM Nametag - corporation.</div>
-    </footer>
+        <footer>
+            <div>TVM</div>
+            <div>Copyright © TVM 2026</div>
+        </footer>
+    </div>
 
     <script>
         const cursor = document.getElementById('customCursor');
         const glow = document.getElementById('mouseGlow');
+        const pageWrapper = document.getElementById('pageWrapper');
         
         window.addEventListener('mousemove', (e) => {
             cursor.style.left = `${e.clientX}px`;
             cursor.style.top = `${e.clientY}px`;
             glow.style.left = `${e.clientX}px`;
             glow.style.top = `${e.clientY}px`;
+
+            const xVal = (e.clientX / window.innerWidth - 0.5) * 12; 
+            const yVal = (e.clientY / window.innerHeight - 0.5) * -12; 
+            pageWrapper.style.transform = `rotateX(${yVal}deg) rotateY(${xVal}deg)`;
         });
 
         const heartsContainer = document.getElementById('heartsContainer');
@@ -287,13 +307,13 @@
             const duration = Math.random() * 5 + 3;
             heart.style.animationDuration = duration + 's';
             
-            const size = Math.random() * 16 + 16;
+            const size = Math.random() * 18 + 18;
             heart.style.fontSize = size + 'px';
             heart.style.opacity = Math.random() * 0.4 + 0.6;
 
             heartsContainer.appendChild(heart);
             setTimeout(() => heart.remove(), duration * 1000);
-        }, 280);
+        }, 250);
 
         document.addEventListener('mouseover', (e) => {
             if (e.target.tagName === 'A' || e.target.closest('a') || e.target.tagName === 'BUTTON') {
@@ -318,17 +338,17 @@
                     card.className = 'product-card';
                     card.innerHTML = `
                         <div class="product-title">${p.name}</div>
-                        <div class="product-icon-container">
+                        <div class="product-card-visual">
                             <img src="${p.image || '/logo.png'}" alt="${p.name}">
                         </div>
                         <div class="product-body">
                             <p class="product-desc">${p.description}</p>
                             <div>
-                                <div class="meta-row" style="margin-bottom: 18px;">
+                                <div class="meta-row" style="margin-bottom: 20px;">
                                     <span class="product-price">$${p.price.toFixed(2)}</span>
                                     <span class="stock-badge">${p.stock} In Stock</span>
                                 </div>
-                                <a href="/product.html?id=${p.id}" class="view-btn">View Details → ✨</a>
+                                <a href="/product.html?id=${p.id}" class="view-btn">View Details →</a>
                             </div>
                         </div>
                     `;
