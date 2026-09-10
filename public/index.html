@@ -10,7 +10,6 @@
             --sidebar-bg: #130417;
             --card-bg: #18051e;
             --accent-purple: #ff007f;
-            --accent-purple-hover: #ff3399;
             --text-main: #ffffff;
             --text-muted: #b892c9;
             --border-color: #3b0e46;
@@ -28,402 +27,71 @@
             position: relative;
         }
 
-        /* Mouse Tracking Glow & Cursor */
+        /* Mouse Glow & Cursor */
         .mouse-glow {
-            position: fixed;
-            top: 0; left: 0;
-            width: 400px; height: 400px;
+            position: fixed; top: 0; left: 0; width: 400px; height: 400px;
             background: radial-gradient(circle, rgba(255, 0, 127, 0.12) 0%, transparent 70%);
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: 1;
+            transform: translate(-50%, -50%); pointer-events: none; z-index: 1;
         }
-
         .cursor {
-            position: fixed;
-            top: 0; left: 0;
-            width: 14px; height: 14px;
-            background-color: var(--accent-purple);
-            border-radius: 50%;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 10px var(--accent-purple);
-            transition: width 0.2s, height: 0.2s;
-            z-index: 9999;
-        }
-        .cursor.hovered { width: 28px; height: 28px; background-color: rgba(255, 0, 127, 0.3); border: 2px solid var(--accent-purple); }
-
-        /* Floating Hearts */
-        .hearts-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
-        .heart { position: absolute; color: rgba(255, 0, 127, 0.15); font-size: 18px; animation: floatUp linear infinite; }
-        @keyframes floatUp {
-            0% { transform: translateY(105vh) scale(0.5) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.7; }
-            80% { opacity: 0.7; }
-            100% { transform: translateY(-10vh) scale(1.2) rotate(360deg); opacity: 0; }
+            position: fixed; top: 0; left: 0; width: 14px; height: 14px;
+            background-color: var(--accent-purple); border-radius: 50%;
+            pointer-events: none; transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px var(--accent-purple); z-index: 9999;
         }
 
         header, .main-layout, footer { position: relative; z-index: 2; }
 
-        /* Header layout */
         header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 20px 50px; 
-            border-bottom: 1px solid var(--border-color); 
-            background: rgba(11, 2, 13, 0.9);
-            backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 20px 50px; border-bottom: 1px solid var(--border-color); 
+            background: rgba(11, 2, 13, 0.9); backdrop-filter: blur(10px);
         }
-        .logo-area { display: flex; align-items: center; gap: 12px; font-weight: 900; font-size: 1.3rem; letter-spacing: 1px; color: var(--text-main); text-decoration: none; }
-        .logo-icon { width: 32px; height: 32px; object-fit: contain; filter: drop-shadow(0 0 5px var(--accent-purple)); }
-        
-        .nav-links { display: flex; align-items: center; gap: 30px; }
-        .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; font-weight: 600; transition: color 0.2s; }
-        .nav-links a:hover, .nav-links a.active { color: var(--text-main); }
-        .cart-icon { background: #18051e; border: 1px solid var(--border-color); padding: 8px 14px; border-radius: 6px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .logo-area { display: flex; align-items: center; gap: 12px; font-weight: 900; font-size: 1.3rem; color: var(--text-main); text-decoration: none; }
+        .logo-icon { width: 32px; height: 32px; object-fit: contain; }
 
-        /* Main Section Header */
-        .products-heading {
-            text-align: center;
-            margin: 40px 0 30px 0;
-        }
-        .products-heading h2 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-            display: inline-block;
-            position: relative;
-            padding-bottom: 8px;
-        }
-        .products-heading h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 10%; width: 80%;
-            height: 3px;
-            background: var(--accent-purple);
-            box-shadow: 0 0 10px var(--accent-purple);
-        }
-
-        /* Layout Grid */
         .main-layout {
-            max-width: 1300px;
-            margin: 0 auto 60px auto;
-            padding: 0 30px;
-            display: grid;
-            grid-template-columns: 260px 1fr;
-            gap: 40px;
-            flex: 1;
-            width: 100%;
+            max-width: 1300px; margin: 40px auto; padding: 0 30px; flex: 1; width: 100%;
         }
 
-        /* Left Sidebar Controls */
-        .sidebar {
-            background-color: var(--sidebar-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 25px;
-            height: fit-content;
-        }
-        .filter-group { margin-bottom: 25px; }
-        .filter-group label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 10px; color: var(--text-main); }
-        
-        .filter-select, .filter-input {
-            width: 100%;
-            background-color: #0b020d;
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            padding: 10px 14px;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            outline: none;
-        }
-        .price-inputs { display: flex; gap: 10px; align-items: center; }
-        .price-inputs input { width: 50%; }
-
-        .btn-apply {
-            width: 100%;
-            background-color: #ffffff;
-            color: #000;
-            font-weight: 700;
-            border: none;
-            padding: 11px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-bottom: 12px;
-            transition: background 0.2s;
-        }
-        .btn-apply:hover { background-color: var(--text-muted); }
-
-        .btn-reset {
-            width: 100%;
-            background-color: transparent;
-            color: var(--text-muted);
-            font-weight: 600;
-            border: 1px solid var(--border-color);
-            padding: 10px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-        .btn-reset:hover { color: #fff; border-color: var(--accent-purple); }
-
-        /* Products Grid */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        /* 3D Tilt Card Styling */
-        .product-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            transform-style: preserve-3d;
-            transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
-            transition: transform 0.1s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        .product-card:hover {
-            border-color: var(--accent-purple);
-            box-shadow: 0 15px 35px rgba(255, 0, 127, 0.2);
-        }
-
-        .card-header-title {
-            padding: 18px;
-            text-align: center;
-            font-weight: 700;
-            font-size: 1.1rem;
-            border-bottom: 1px solid var(--border-color);
-            background: rgba(24, 5, 30, 0.5);
-            transform: translateZ(20px);
-        }
-
-        .card-image-box {
-            height: 160px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: radial-gradient(circle, rgba(59, 14, 70, 0.3) 0%, transparent 80%);
-            transform: translateZ(35px);
-        }
-        .card-product-logo {
-            width: 75px;
-            height: 75px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 10px rgba(255, 0, 127, 0.4));
-        }
-
-        .card-footer-info {
-            padding: 18px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            background: rgba(11, 2, 13, 0.6);
-            transform: translateZ(20px);
-            flex-grow: 1;
-            justify-content: flex-end;
-        }
-
-        .price-stock-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.95rem;
-        }
-        .product-price { font-weight: 800; color: var(--text-main); font-size: 1.1rem; }
-        .product-stock { color: var(--text-muted); font-size: 0.85rem; }
-
-        .view-details-btn {
-            display: block;
-            width: 100%;
-            text-align: center;
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 10px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: background 0.2s, border-color 0.2s;
-            cursor: none;
-        }
-        .view-details-btn:hover {
-            background-color: var(--accent-purple);
-            border-color: var(--accent-purple);
-        }
-
-        /* Footer */
         footer {
-            border-top: 1px solid var(--border-color);
-            padding: 30px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(11, 2, 13, 0.9);
-            font-size: 0.85rem;
-            color: var(--text-muted);
+            border-top: 1px solid var(--border-color); padding: 30px 50px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(11, 2, 13, 0.9); font-size: 0.85rem; color: var(--text-muted);
         }
-        .footer-links { display: flex; gap: 20px; }
-        .footer-links a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
-        .footer-links a:hover { color: var(--text-main); }
     </style>
 </head>
 <body>
     <div class="mouse-glow" id="mouseGlow"></div>
     <div class="cursor" id="customCursor"></div>
-    <div class="hearts-container" id="heartsContainer"></div>
 
-    <!-- Header -->
+    <!-- Header without nav links -->
     <header>
         <a href="/" class="logo-area">
             <img src="/logo.png" alt="TVM Logo" class="logo-icon"> TVM
         </a>
-        <div class="nav-links">
-            <a href="/">Home</a>
-            <a href="/" class="active">Products</a>
-            <a href="/">Login</a>
-            <a href="/" class="cart-icon">🛒</a>
-        </div>
     </header>
 
-    <!-- Page Section Header -->
-    <div class="products-heading">
-        <h2>Our Products</h2>
-    </div>
-
-    <!-- Main Layout Content -->
     <div class="main-layout">
-        <!-- Sidebar Filters -->
-        <aside class="sidebar">
-            <div class="filter-group">
-                <label>Categories</label>
-                <select class="filter-select">
-                    <option>All Categories</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label>Keyword</label>
-                <input type="text" class="filter-input" placeholder="Search...">
-            </div>
-            <div class="filter-group">
-                <label>Price Range</label>
-                <div class="price-inputs">
-                    <input type="text" class="filter-input" placeholder="Min">
-                    <input type="text" class="filter-input" placeholder="Max">
-                </div>
-            </div>
-            <button class="btn-apply">Apply →</button>
-            <button class="btn-reset">Reset ↺</button>
-        </aside>
-
-        <!-- Product Cards Grid -->
-        <div class="products-grid" id="products-grid">
-            <p style="color: var(--text-muted);">Loading products...</p>
-        </div>
+        <h1 style="margin-bottom: 20px;">Products</h1>
+        <!-- Your products grid / content goes here -->
     </div>
 
-    <!-- Footer -->
+    <!-- Footer without policy links -->
     <footer>
         <div>TVM</div>
         <div>Copyright © TVM 2026</div>
-        <div class="footer-links">
-            <a href="#">Terms of Service</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Refund Policy</a>
-        </div>
     </footer>
 
     <script>
-        // Custom Cursor & Glow tracking
         const cursor = document.getElementById('customCursor');
         const glow = document.getElementById('mouseGlow');
-
         window.addEventListener('mousemove', (e) => {
             cursor.style.left = `${e.clientX}px`;
             cursor.style.top = `${e.clientY}px`;
             glow.style.left = `${e.clientX}px`;
             glow.style.top = `${e.clientY}px`;
         });
-
-        document.addEventListener('mouseover', (e) => {
-            if (e.target.tagName === 'A' || e.target.closest('a') || e.target.tagName === 'BUTTON') {
-                cursor.classList.add('hovered');
-            }
-        });
-        document.addEventListener('mouseout', (e) => {
-            if (e.target.tagName === 'A' || e.target.closest('a') || e.target.tagName === 'BUTTON') {
-                cursor.classList.remove('hovered');
-            }
-        });
-
-        // Floating Hearts Generator
-        const heartsContainer = document.getElementById('heartsContainer');
-        const heartSymbols = ['❤️', '💖', '💗', '💜', '✨'];
-        setInterval(() => {
-            const heart = document.createElement('div');
-            heart.className = 'heart';
-            heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-            heart.style.left = Math.random() * 100 + 'vw';
-            const duration = Math.random() * 6 + 4;
-            heart.style.animationDuration = duration + 's';
-            heart.style.fontSize = (Math.random() * 12 + 12) + 'px';
-            heartsContainer.appendChild(heart);
-            setTimeout(() => heart.remove(), duration * 1000);
-        }, 450);
-
-        // Load Products and initialize 3D Tilt Effect
-        async function loadProducts() {
-            try {
-                const res = await fetch('/api/products');
-                const products = await res.json();
-                const grid = document.getElementById('products-grid');
-                grid.innerHTML = '';
-
-                products.forEach(product => {
-                    const card = document.createElement('div');
-                    card.className = 'product-card';
-                    card.innerHTML = `
-                        <div class="card-header-title">${product.name}</div>
-                        <div class="card-image-box">
-                            <img src="/logo.png" alt="${product.name}" class="card-product-logo">
-                        </div>
-                        <div class="card-footer-info">
-                            <div class="price-stock-row">
-                                <span class="product-price">$${product.price.toFixed(2)}</span>
-                                <span class="product-stock">${product.stock} In Stock</span>
-                            </div>
-                            <button class="view-details-btn" onclick="window.location.href='/product.html?id=${product.id}'">View Details →</button>
-                        </div>
-                    `;
-
-                    // 3D Screen Tilt Mechanics per card
-                    card.addEventListener('mousemove', (e) => {
-                        const rect = card.getBoundingClientRect();
-                        const x = e.clientX - rect.left;
-                        const y = e.clientY - rect.top;
-                        const centerX = rect.width / 2;
-                        const centerY = rect.height / 2;
-                        const rotateX = -((y - centerY) / centerY) * 12;
-                        const rotateY = ((x - centerX) / centerX) * 12;
-                        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-                    });
-
-                    card.addEventListener('mouseleave', () => {
-                        card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-                    });
-
-                    grid.appendChild(card);
-                });
-            } catch (err) {
-                document.getElementById('products-grid').innerHTML = `<p style="color: #ff4d4d;">Failed to load products.</p>`;
-            }
-        }
-
-        loadProducts();
     </script>
 </body>
 </html>
