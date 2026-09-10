@@ -7,12 +7,12 @@
     <style>
         :root {
             --bg-color: #030005;
-            --card-bg: rgba(22, 5, 32, 0.75);
+            --card-bg: linear-gradient(145deg, rgba(30, 8, 45, 0.85), rgba(15, 3, 24, 0.9));
             --accent-purple: #ff007f;
-            --accent-glow: rgba(255, 0, 127, 0.4);
+            --accent-glow: rgba(255, 0, 127, 0.6);
             --text-main: #ffffff;
             --text-muted: #d0a5e8;
-            --border-color: rgba(255, 0, 127, 0.35);
+            --border-color: rgba(255, 0, 127, 0.4);
             --border-hover: rgba(255, 0, 127, 1);
         }
 
@@ -26,10 +26,9 @@
             flex-direction: column; 
             overflow-x: hidden;
             position: relative;
-            perspective: 1200px; /* Enables 3D space for the whole page */
+            perspective: 1200px;
         }
 
-        /* 3D Moving Wrapper for Edges & Screen */
         .page-wrapper {
             display: flex;
             flex-direction: column;
@@ -39,7 +38,6 @@
             transform-style: preserve-3d;
         }
 
-        /* Animated Dynamic Glowing Nebula Background */
         .bg-nebula {
             position: fixed; top: -5%; left: -5%; width: 110%; height: 110%; pointer-events: none; z-index: 0;
             background: 
@@ -56,7 +54,6 @@
             100% { transform: scale(1) rotate(0deg); filter: hue-rotate(0deg); }
         }
 
-        /* Floating Glowing Particles for extra depth */
         .bg-particles {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
             background-image: 
@@ -67,7 +64,6 @@
             opacity: 0.3;
         }
 
-        /* Mouse Glow & Heart Cursor */
         .mouse-glow {
             position: fixed; top: 0; left: 0; width: 600px; height: 600px;
             background: radial-gradient(circle, rgba(255, 0, 127, 0.18) 0%, transparent 70%);
@@ -84,7 +80,6 @@
             transform: translate(-50%, -50%) scale(1.6);
         }
 
-        /* 3D Raining Hearts Animation Layer */
         .hearts-container { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             pointer-events: none; z-index: 3; overflow: hidden; 
@@ -118,8 +113,8 @@
         }
 
         .page-title {
-            font-size: 2.3rem;
-            font-weight: 800;
+            font-size: 2.5rem;
+            font-weight: 900;
             margin-bottom: 35px;
             letter-spacing: 0.5px;
             background: linear-gradient(135deg, #fff 30%, var(--text-muted) 100%);
@@ -128,7 +123,7 @@
             text-shadow: 0 0 35px rgba(255,0,127,0.4);
         }
 
-        /* Bigger Products Grid */
+        /* Revamped Dynamic Products Grid */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
@@ -136,39 +131,62 @@
         }
 
         .product-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 18px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             backdrop-filter: blur(16px);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
-            transform: translateZ(20px); /* Lifts cards forward in 3D */
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), inset 0 0 25px rgba(255, 0, 127, 0.08);
+            transform: translateZ(20px);
         }
         
         .product-card:hover {
             border-color: var(--border-hover);
-            transform: translateZ(35px) translateY(-6px);
-            box-shadow: 0 20px 55px var(--accent-glow);
+            transform: translateZ(40px) translateY(-8px);
+            box-shadow: 0 25px 65px var(--accent-glow), inset 0 0 35px rgba(255, 0, 127, 0.2);
         }
 
         .product-title { 
-            padding: 28px 24px; 
+            padding: 24px; 
             font-size: 1.6rem; 
-            font-weight: 800; 
+            font-weight: 900; 
             text-align: center; 
-            border-bottom: 1px solid var(--border-color); 
-            background: rgba(255, 0, 127, 0.08);
+            border-bottom: 2px solid var(--border-color); 
+            background: linear-gradient(180deg, rgba(255, 0, 127, 0.15), rgba(255, 0, 127, 0.03));
             letter-spacing: 0.5px;
+            text-shadow: 0 0 15px rgba(255,0,127,0.5);
+        }
+
+        /* Added Graphic Card Illustration Box */
+        .product-card-visual {
+            width: 100%;
+            height: 140px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle, rgba(255,0,127,0.12) 0%, rgba(5,0,8,0.4) 70%);
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+        .product-card-visual img {
+            max-height: 80px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 18px var(--accent-purple));
+            animation: floatIcon 3s ease-in-out infinite alternate;
+        }
+        @keyframes floatIcon {
+            0% { transform: translateY(0px) scale(1); }
+            100% { transform: translateY(-6px) scale(1.05); }
         }
 
         .product-body { 
-            padding: 32px; 
+            padding: 30px; 
             display: flex; 
             flex-direction: column; 
-            gap: 25px; 
+            gap: 22px; 
             flex-grow: 1; 
             justify-content: space-between; 
         }
@@ -183,25 +201,26 @@
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            border-top: 1px solid var(--border-color);
+            border-top: 1px dashed var(--border-color);
             padding-top: 20px;
         }
 
         .product-price { 
             font-weight: 900; 
-            font-size: 1.8rem; 
+            font-size: 1.9rem; 
             color: #fff;
-            text-shadow: 0 0 12px rgba(255,255,255,0.4);
+            text-shadow: 0 0 15px rgba(255,255,255,0.6);
         }
 
         .stock-badge {
             font-size: 0.95rem;
-            color: var(--accent-purple);
-            background: rgba(255, 0, 127, 0.18);
-            padding: 6px 14px;
+            color: #ff3399;
+            background: rgba(255, 0, 127, 0.22);
+            padding: 7px 16px;
             border-radius: 20px;
-            border: 1px solid rgba(255, 0, 127, 0.5);
-            font-weight: 700;
+            border: 1px solid rgba(255, 0, 127, 0.6);
+            font-weight: 800;
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
         }
 
         .view-btn {
@@ -213,15 +232,17 @@
             padding: 16px; 
             border-radius: 12px; 
             text-decoration: none; 
-            font-weight: 800;
-            font-size: 1.1rem;
-            box-shadow: 0 6px 20px rgba(255, 0, 127, 0.45);
+            font-weight: 900;
+            font-size: 1.15rem;
+            box-shadow: 0 6px 20px rgba(255, 0, 127, 0.5);
             transition: all 0.2s ease;
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
         .view-btn:hover {
             filter: brightness(1.15);
-            box-shadow: 0 8px 30px rgba(255, 0, 127, 0.7);
+            box-shadow: 0 8px 30px rgba(255, 0, 127, 0.8);
+            transform: scale(1.02);
         }
 
         footer {
@@ -271,13 +292,11 @@
             glow.style.left = `${e.clientX}px`;
             glow.style.top = `${e.clientY}px`;
 
-            // 3D Screen Tilt Effect responding to edge positions
-            const xVal = (e.clientX / window.innerWidth - 0.5) * 12; // tilt angle X
-            const yVal = (e.clientY / window.innerHeight - 0.5) * -12; // tilt angle Y
+            const xVal = (e.clientX / window.innerWidth - 0.5) * 12; 
+            const yVal = (e.clientY / window.innerHeight - 0.5) * -12; 
             pageWrapper.style.transform = `rotateX(${yVal}deg) rotateY(${xVal}deg)`;
         });
 
-        // Vibrant 3D Raining Hearts Generator
         const heartsContainer = document.getElementById('heartsContainer');
         const heartSymbols = ['❤️', '💖', '💗', '💜', '✨', '🩷'];
         
@@ -298,7 +317,6 @@
             setTimeout(() => heart.remove(), duration * 1000);
         }, 250);
 
-        // Hover effect for interactive elements
         document.addEventListener('mouseover', (e) => {
             if (e.target.tagName === 'A' || e.target.closest('a') || e.target.tagName === 'BUTTON') {
                 cursor.classList.add('hovered');
@@ -322,6 +340,9 @@
                     card.className = 'product-card';
                     card.innerHTML = `
                         <div class="product-title">${p.name}</div>
+                        <div class="product-card-visual">
+                            <img src="${p.image || '/logo.png'}" alt="${p.name}">
+                        </div>
                         <div class="product-body">
                             <p class="product-desc">${p.description}</p>
                             <div>
